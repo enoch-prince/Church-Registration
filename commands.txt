@@ -1,0 +1,30 @@
+# Postgredd DB commands
+CREATE DATABASE yourdbname;
+CREATE USER youruser WITH ENCRYPTED PASSWORD 'yourpass';
+GRANT ALL PRIVILEGES ON DATABASE yourdbname TO youruser;
+
+# Python Virtual environment using Pipenv
+
+# if a Pipfile already exists in current directory && pipenv must be on the system path
+pipenv install 
+
+# if a Pipfile doesn't exist yet
+pipenv install django djangorestframework psycopg2 django-environ
+
+# activate virtual environment
+pipenv shell
+
+# create project
+django-admin startproject <projectname> .
+
+# create a django app
+python manage.py startapp <appname>
+
+# run make migrations
+python manage.py makemigrations
+
+# run migrations
+python manage.py migrate
+
+# run server
+python manage.py runserver
