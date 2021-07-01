@@ -2,12 +2,13 @@ from django.contrib.auth.models import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 
 class AccountManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, password=None):
+
+    def create_user(self, email, password, first_name, last_name, **other_fields):
         if not any([email, first_name, last_name]):
             raise ValueError(_("Required fields are in this order: email, firstname, lastname"))
         
         email = self.normalize_email(email)
-        user = self.model(email=email, first_name=first_name, last_name=last_name)
+        user = self.model(email=email, first_name=first_name, last_name=last_name, **other_fields)
         user.set_password(password)
         user.save()
         return user
