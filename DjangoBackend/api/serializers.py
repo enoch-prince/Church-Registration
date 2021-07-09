@@ -1,4 +1,3 @@
-from django.db.models.query_utils import Q
 from api.models import Person, Registration, CancelledRegistration
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError

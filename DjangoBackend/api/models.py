@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 from django.db import models, IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import PermissionsMixin
 
 
 class Registration(models.Model):
@@ -29,7 +30,7 @@ class CancelledRegistration(models.Model):
         return self.registration.name + " - " + self.registration.activity_date.isoformat()
 
 
-class Person(AbstractBaseUser):
+class Person(AbstractBaseUser, PermissionsMixin):
 
     objects = AccountManager()
 
