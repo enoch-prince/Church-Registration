@@ -181,8 +181,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 # Facebook configuration
-SOCIAL_AUTH_FACEBOOK_KEY = '<your app id goes here>'
-SOCIAL_AUTH_FACEBOOK_SECRET = '<your app secret goes here>'
+SOCIAL_AUTH_FACEBOOK_KEY = env('FB_OAUTH_CLIENT_ID')
+SOCIAL_AUTH_FACEBOOK_SECRET = env('FB_OAUTH_CLIENT_SECRET')
 
 # Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from Facebook.
 # Email is not sent by default, to get it, you must request the email permission.
@@ -192,11 +192,15 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 }
 
 # Google configuration
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<your app id goes here>'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<your app secret goes here>'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_OAUTH_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_OAUTH_CLIENT_SECRET')
 
 # Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
 ]
+
+# DRF Social Configuration
+DRF_AUTH_CLENT_ID = env('DRF_AUTH_CLENT_ID')
+DRF_AUTH_CLIENT_SECRET = env('DRF_AUTH_CLIENT_SECRET')
