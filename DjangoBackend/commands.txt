@@ -1,9 +1,9 @@
-# Postgredd DB commands
+## Postgredd DB commands
 CREATE DATABASE yourdbname;
 CREATE USER youruser WITH ENCRYPTED PASSWORD 'yourpass';
 GRANT ALL PRIVILEGES ON DATABASE yourdbname TO youruser;
 
-# Python Virtual environment using Pipenv
+## Python Virtual environment using Pipenv
 
 # if a Pipfile already exists in current directory && pipenv must be on the system path
 pipenv install 
@@ -29,7 +29,7 @@ python manage.py migrate
 # run server
 python manage.py runserver
 
-# Git commands
+## Git commands
 git init
 git status
 git add .
@@ -38,7 +38,17 @@ git remote add origin https://github.com/<name>/<repo>.git
 git branch -M main
 git push -u origin main
 
-# Testing the OAUTH SetUp
+# creating and moving to a new branch
+git checkout -b <branch-name>
+
+# switch back to the main branch
+git checkout main
+
+# merge branch with main
+ git merge <branch-name>
+
+
+## Testing the OAUTH SetUp
 curl -X POST -d "client_id=uvZYAkCCOExaBMO9LViaMYmLsOwDsXlF8Mp15dEF&client_secret=WDX10CGxKUX58pdAVgZ0mLYrq2VeoxoVJH8LG5VkcCJXacXZXiDErUMzsMLqxm1CwQXyNM42UeOvfgnZrwM8fVC774dMe02mk8mVEEoEo71pAdhebFyglbozgvyzSbL9&grant_type=password&username=admin@hopechurch.com&password=admin" http://localhost:8000/auth/token
 
 curl -X POST -d "client_id=<client_id>&client_secret=<client_secret>&grant_type=password&username=<user_name>&password=<password>" http://localhost:8000/auth/token
