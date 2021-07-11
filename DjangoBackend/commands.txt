@@ -52,3 +52,7 @@ git checkout main
 curl -X POST -d "client_id=uvZYAkCCOExaBMO9LViaMYmLsOwDsXlF8Mp15dEF&client_secret=WDX10CGxKUX58pdAVgZ0mLYrq2VeoxoVJH8LG5VkcCJXacXZXiDErUMzsMLqxm1CwQXyNM42UeOvfgnZrwM8fVC774dMe02mk8mVEEoEo71pAdhebFyglbozgvyzSbL9&grant_type=password&username=admin@hopechurch.com&password=admin" http://localhost:8000/auth/token
 
 curl -X POST -d "client_id=<client_id>&client_secret=<client_secret>&grant_type=password&username=<user_name>&password=<password>" http://localhost:8000/auth/token
+
+# Testing Facebook
+curl -X POST -d "grant_type=convert_token&client_id=<client_id>&client_secret=<client_secret>&backend=facebook&token=<facebook_token>" http://localhost:8000/auth/convert-token
+curl -X POST -d "grant_type=convert_token&client_id=uvZYAkCCOExaBMO9LViaMYmLsOwDsXlF8Mp15dEF&client_secret=WDX10CGxKUX58pdAVgZ0mLYrq2VeoxoVJH8LG5VkcCJXacXZXiDErUMzsMLqxm1CwQXyNM42UeOvfgnZrwM8fVC774dMe02mk8mVEEoEo71pAdhebFyglbozgvyzSbL9&backend=facebook&token=EAAIMP0eYfJABAHgHf3RJR94JmIZB7YtEcqboYtKwLUMFnumtBzHrqlZBUxCtg1w4sZBaqFJdHpoknGbmdzhBX7HRYjdVeC0jFgtTkowzKtZBZAURzQwvqJEWvCBSuLUKvfiLgKJbpg7CIWgdZBvsA1pkPBLyaiiyUPmTa0BfSZCRs2RmQZAbIr36" http://localhost:8000/auth/convert-token

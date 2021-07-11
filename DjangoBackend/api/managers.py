@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class AccountManager(BaseUserManager):
 
-    def create_user(self, email, password, first_name, last_name, **other_fields):
+    def create_user(self, email, first_name, last_name, password=None, **other_fields):
         if not any([email, first_name, last_name]):
             raise ValueError(_("Required fields are in this order: email, firstname, lastname"))
         

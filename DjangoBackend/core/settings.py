@@ -180,15 +180,19 @@ AUTHENTICATION_BACKENDS = [
     # Django
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+# Social Auth User fields Config
+SOCIAL_AUTH_USER_FIELDS = ['email', 'first_name', 'last_name', 'password']
+
 # Facebook configuration
 SOCIAL_AUTH_FACEBOOK_KEY = env('FB_OAUTH_CLIENT_ID')
 SOCIAL_AUTH_FACEBOOK_SECRET = env('FB_OAUTH_CLIENT_SECRET')
 
 # Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from Facebook.
 # Email is not sent by default, to get it, you must request the email permission.
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id, name, email'
+    'fields': 'id, email, first_name, last_name'
 }
 
 # Google configuration
