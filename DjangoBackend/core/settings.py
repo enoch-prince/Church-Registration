@@ -174,6 +174,9 @@ AUTHENTICATION_BACKENDS = [
     # Google OAuth2
     'social_core.backends.google.GoogleOAuth2',
 
+    # VK OAuth2
+    'social_core.backends.vk.VKOAuth2',
+
     # drf_social_oauth2
     'drf_social_oauth2.backends.DjangoOAuth2',
 
@@ -196,14 +199,23 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 }
 
 # Google configuration
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_OAUTH_CLIENT_ID')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_OAUTH_CLIENT_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_OAUTH2_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_OAUTH2_CLIENT_SECRET')
 
 # Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
+    'openid'
 ]
+
+# VK Configuration
+SOCIAL_AUTH_VK_OAUTH2_KEY = env('SOCIAL_AUTH_VK_OAUTH2_CLIENT_ID')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = env('SOCIAL_AUTH_VK_OAUTH2_CLIENT_SECRET')
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email', 'photos']
+SOCIAL_AUTH_VK_OAUTH2_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, email, first_name, last_name'
+}
 
 # DRF Social Configuration
 DRF_AUTH_CLENT_ID = env('DRF_AUTH_CLENT_ID')
