@@ -11,6 +11,7 @@ djangorestframework = "*"
 psycopg2 = "*"
 django-environ = "*"
 drf-social-oauth2 = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.9"

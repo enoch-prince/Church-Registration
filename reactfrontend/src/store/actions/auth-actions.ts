@@ -17,14 +17,12 @@ export const signUp = (
     //social auth request implementation here
     axiosInstance
       .post(URLS.userUrl, {
-        ...data
-        // firstName: data.firstName,
-        // lastName: data.lastName,
-        // patronicName: data.patronicName,
-        // middleName: data.middlename,
-        // email: data.email,
-        // password: data.password,
-        // studOrYoungAdult: data.studOrYoungAdult
+        first_name: data.firstName,
+        last_name: data.lastName,
+        patronic_name: data.patronicName || data.middleName || null,
+        email: data.email,
+        password: data.password,
+        is_student_or_young_adult: data.studOrYoungAdult
       })
       .then((res) => {
         const user: TY.User = {
@@ -56,11 +54,11 @@ export const signIn = (
   return (dispatch) => {
     axiosInstance
       .post(URLS.tokenUrl, {
+        client_id: DRF_AUTH_CLIENT_ID,
+        client_secret: DRF_AUTH_CLIENT_SECRET,
         grant_type: "password",
         username: data.email,
-        password: data.password,
-        client_id: DRF_AUTH_CLIENT_ID,
-        client_secret: DRF_AUTH_CLIENT_SECRET
+        password: data.password
       })
       .then((res) => {
         localStorage.setItem("access_token", res.data.access_token);
@@ -82,6 +80,7 @@ export const signOut = (): ThunkAction<
   TY.AuthAction
 > => {
   return (dispatch) => {
+    dispatch(setLoading(true));
     axiosInstance
       .post(URLS.revokeTokenUrl, {
         client_id: DRF_AUTH_CLIENT_ID,
@@ -91,10 +90,14 @@ export const signOut = (): ThunkAction<
       .then((res) => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        dispatch(setSuccess("Logged Out Successfully!"));
+        dispatch({
+          type: TY.SIGN_OUT
+        });
+        //dispatch(setSuccess("Logged Out Successfully!"));
       })
       .catch((error: AxiosError) => {
         dispatch(setError(error.message));
+        dispatch(setLoading(false));
       });
   };
 };
@@ -154,6 +157,7 @@ export const getuserById = (
   id: string
 ): ThunkAction<void, RootState, null, TY.AuthAction> => {
   return (dispatch) => {
+    dispatch(setLoading(true));
     axiosInstance
       .get(URLS.userUrl + id)
       .then((res) => {

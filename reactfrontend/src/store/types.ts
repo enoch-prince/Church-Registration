@@ -8,7 +8,7 @@ export const SET_LOADING = "set-loading";
 export interface User {
   email: string;
   firstName: string;
-  id: number;
+  id: string;
   createdAt: Date;
 }
 
@@ -30,7 +30,7 @@ export interface SignUpData {
   firstName: string;
   lastName: string;
   patronicName?: string | null;
-  middlename?: string | null;
+  middleName?: string | null;
   email: string;
   password: string;
   studOrYoungAdult: boolean;
