@@ -14,8 +14,11 @@ from rest_framework.permissions import AllowAny
 class PersonViewSet(viewsets.ModelViewSet):
     
     serializer_class = PersonSerializer
-
     permission_classes = [AllowAny]
+    filterset_fields = [
+        "email", "is_member", "is_student_or_young_adult", 
+        "registrations", "cancelled_registrations"
+    ]
 
     # this is implemented to eliminate the N+1 query problem with nested serializers
     def get_queryset(self):
@@ -142,6 +145,7 @@ class RegistrationViewSet(viewsets.ModelViewSet):
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
     permission_classes = [AllowAny]
+    filterset_fields = ["name"]
 
     def get_queryset(self):
         queryset = Registration.objects.prefetch_related("registered_people").all()
@@ -157,6 +161,7 @@ class CancelledRegistrationViewSet(
     
     serializer_class = CancelledRegistrationSerializer
     permission_classes = [AllowAny]
+    filterset_fields = ["registration"]
 
     def get_queryset(self):
         queryset = CancelledRegistration.objects.select_related("registration").all()

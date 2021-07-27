@@ -24,12 +24,19 @@ import Loader from "../components/sections/Loader";
 
 const App: FC = () => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const { loading, authenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   // check if user exists or has signed in
   useEffect(() => {
-    dispatch(AuthActions.setLoading(false));
-  }, [dispatch]);
+    if (loading) dispatch(AuthActions.setLoading(false));
+    const token = localStorage.getItem("access_token");
+    const user_id = localStorage.getItem("user_id");
+    if (token !== null && user_id !== null && !authenticated) {
+      dispatch(AuthActions.getuserById(user_id, token));
+    }
+  }, [authenticated, dispatch, loading]);
 
   if (loading) {
     return <Loader />;

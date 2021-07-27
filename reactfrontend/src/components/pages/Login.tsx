@@ -1,9 +1,9 @@
 import { FC, useState, FormEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { RootState } from "../../store";
-import { signIn, setError } from "../../store/actions/auth-actions";
+import { signIn, setError, setSuccess } from "../../store/actions/auth-actions";
 
 import {
   Grid,
@@ -18,20 +18,22 @@ import {
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { signupUrl, forgotPasswordUrl } from "../../axios/urls";
+import { signupUrl, forgotPasswordUrl, dashboardUrl } from "../../axios/urls";
 
 const Login: FC = () => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { error } = useSelector((state: RootState) => state.auth);
+  const { error, success } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     return () => {
       if (error) dispatch(setError(""));
+      if (success) dispatch(setSuccess(""));
     };
-  }, [error, dispatch]);
+  }, [error, success, dispatch]);
 
   const submitDataHandler = (e: FormEvent) => {
     e.preventDefault();
@@ -39,12 +41,17 @@ const Login: FC = () => {
     setLoading(true);
     console.log(email, password);
     dispatch(signIn({ email, password }, () => setLoading(false)));
+    if (success) {
+      setLoading(false);
+      dispatch(setSuccess(""));
+      history.push(dashboardUrl);
+    }
   };
 
   const paperStyle = {
     padding: 20,
     height: "70vh",
-    width: 320,
+    width: 350,
     margin: "30px auto"
   };
 
@@ -149,34 +156,3 @@ const Login: FC = () => {
 };
 
 export default Login;
-
-/* <div>
-        <h2 className="has-text-centered is-size-2 mb-3">Sign In</h2>
-        <form className="form" onSubmit={submitDataHandler}>
-          {error && <Message type="danger" msg={error} />}
-          <Input
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e: FormEvent) => setEmail(e.currentTarget.value)}
-            placeholder="Email address"
-            label="Email address"
-          />
-          <Input
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e: FormEvent) => setPassword(e.currentTarget.value)}
-            placeholder="Password"
-            label="Password"
-          />
-          <p>
-            <Link to="/forgot-password">Forgot password ?</Link>
-          </p>
-          <Button
-            text={loading ? "Loading..." : "Sign In"}
-            className="is-primary is-fullwidth mt-5"
-            disabled={loading}
-          />
-        </form>
-      </div> */

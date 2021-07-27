@@ -12,6 +12,7 @@ psycopg2 = "*"
 django-environ = "*"
 drf-social-oauth2 = "*"
 django-cors-headers = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.9"

@@ -7,6 +7,7 @@ import axiosInstance, {
 } from "../../axios/axios-instances";
 import * as URLS from "../../axios/urls";
 import { AxiosError } from "axios";
+import { createQueryUrl } from "../../utils";
 
 // create user
 export const signUp = (
@@ -63,6 +64,8 @@ export const signIn = (
       .then((res) => {
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
+        // get user and then dispatch a set user action
+        dispatch(getuserByEmail(data.email, res.data.access_token));
         dispatch(setSuccess(`${data.email} successfully logged in!`));
       })
       .catch((error: AxiosError) => {
@@ -90,6 +93,7 @@ export const signOut = (): ThunkAction<
       .then((res) => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user_id");
         dispatch({
           type: TY.SIGN_OUT
         });
@@ -154,12 +158,16 @@ export const setLoading = (
 
 // Get user by id
 export const getuserById = (
-  id: string
+  id: string,
+  token: string
 ): ThunkAction<void, RootState, null, TY.AuthAction> => {
   return (dispatch) => {
     dispatch(setLoading(true));
+
+    axiosInstance.defaults.headers["Authorization"] = "Bearer " + token;
+
     axiosInstance
-      .get(URLS.userUrl + id)
+      .get(URLS.userUrl + "/" + id)
       .then((res) => {
         const user = {
           firstName: res.data.first_name,
@@ -173,6 +181,45 @@ export const getuserById = (
         });
       })
       .catch((error: AxiosError) => {
+        dispatch(setError(error.message));
+      });
+  };
+};
+
+// Get user by email and dispatch to store
+export const getuserByEmail = (
+  email: string,
+  token: string
+): ThunkAction<void, RootState, null, TY.AuthAction> => {
+  return (dispatch) => {
+    dispatch(setLoading(true));
+
+    let url = createQueryUrl(URLS.userUrl, { email: email });
+
+    axiosInstance.defaults.headers["Authorization"] = "Bearer " + token;
+
+    axiosInstance
+      .get(url)
+      .then((res) => {
+        //console.log(res);
+        // res.data comes as an array
+        let data = res.data[0];
+        const user = {
+          firstName: data.first_name,
+          email: data.email,
+          id: data.id,
+          createdAt: data.created_at
+        } as TY.User;
+        if (localStorage.getItem("user_id") === null)
+          localStorage.setItem("user_id", data.id);
+        dispatch({
+          type: TY.SET_USER,
+          payload: user
+        });
+        dispatch(setLoading(false));
+      })
+      .catch((error: AxiosError) => {
+        dispatch(setLoading(false));
         dispatch(setError(error.message));
       });
   };

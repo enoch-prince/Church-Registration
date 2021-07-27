@@ -48,6 +48,11 @@ export interface CancelledRegistration {
   registration: Registration | null;
 }
 
+export interface RGItemType {
+  id: string;
+  title: string;
+}
+
 // Actions
 
 interface SetUserAction {
